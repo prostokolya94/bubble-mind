@@ -3,6 +3,14 @@ import { User } from '../type/User';
 
 export class UserStore {
     private _user: User | null = null;
+    private _isAuth: boolean = false;
+
+    public get isAuth(): boolean {
+        return this._isAuth;
+    }
+    public set isAuth(value: boolean) {
+        this._isAuth = value;
+    }
 
     public get user(): User | null {
         return this._user;
