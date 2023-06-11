@@ -1,5 +1,21 @@
 import { SelectChangeEvent } from '@mui/material';
 import { User } from '../../../shared/type/User';
+import { NavigateFunction } from 'react-router';
+import { userStore } from '../../..';
+
+function checkUsersStorage() {
+    let usersStorage = localStorage.getItem('usersStorage');
+    if (usersStorage !== null) {
+        return JSON.parse(usersStorage);
+    } else {
+        return false;
+    }
+}
+
+function login(user: User) {
+    localStorage.setItem('user', JSON.stringify(user));
+    userStore.isAuth = true;
+}
 
 export function dispatchData(
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent<string>,
@@ -13,16 +29,7 @@ export function dispatchData(
     }
 }
 
-function checkUsersStorage() {
-    let usersStorage = localStorage.getItem('usersStorage');
-    if (usersStorage !== null) {
-        return JSON.parse(usersStorage);
-    } else {
-        return false;
-    }
-}
-
-export function saveNewUser(newUser: User) {
+export function saveNewUser(newUser: User, navigate: NavigateFunction) {
     if (checkUsersStorage() && typeof checkUsersStorage() == 'object') {
         let usersStorage = checkUsersStorage();
         usersStorage.push(newUser);
@@ -30,4 +37,6 @@ export function saveNewUser(newUser: User) {
     } else {
         localStorage.setItem('usersStorage', JSON.stringify([newUser]));
     }
+    login(newUser);
+    navigate('/');
 }

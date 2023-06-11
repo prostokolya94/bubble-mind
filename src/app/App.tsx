@@ -1,15 +1,24 @@
 import { Route, Routes, useNavigate } from 'react-router';
 import { HomePage } from '../pages/home/HomePage';
-import { RegistrationPage } from '../pages/registration/ui/RegistrationPage';
-import { BrowserRouter } from 'react-router-dom';
-import { UserStore } from '../shared/store/UserStore';
 import { MainWrapper } from './styled';
 import { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
+import { userStore } from '..';
+import RegistrationPage from '../pages/registration/ui/RegistrationPage';
+
+function checkAuth() {
+    let storage = localStorage.getItem('usersStorage');
+    let item = localStorage.getItem('user');
+    if (item && storage?.includes(item)) {
+        userStore.isAuth = true;
+    }
+}
 
 function App() {
-    const userStore = new UserStore();
     const navigate = useNavigate();
+    useEffect(() => {
+        checkAuth();
+    }, []);
 
     useEffect(() => {
         if (!userStore.isAuth) {
@@ -31,5 +40,5 @@ function App() {
         </MainWrapper>
     );
 }
-//
+
 export default observer(App);

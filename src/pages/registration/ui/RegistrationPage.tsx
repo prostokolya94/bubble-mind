@@ -3,12 +3,16 @@ import { RegistrationPageWrapper } from './styled';
 import { Button, MenuItem, Select, TextField, Typography } from '@mui/material';
 import { User } from '../../../shared/type/User';
 import { dispatchData, saveNewUser } from '../model/RegistrationPage';
+import { useNavigate } from 'react-router';
+import { observer } from 'mobx-react-lite';
 
-export const RegistrationPage = () => {
+const RegistrationPage = () => {
     const [firstName, setFirstName] = useState<string>('');
     const [lastName, setLastName] = useState<string>('');
     const [age, setAge] = useState<number>(0);
     const [male, setMale] = useState<string>('male');
+
+    const navigate = useNavigate();
 
     const newUser: User = {
         id: Date.now(),
@@ -39,11 +43,13 @@ export const RegistrationPage = () => {
             <TextField type='number' value={age} onChange={(e) => dispatchData(e, undefined, setAge)} />
             <Button
                 onClick={(e) => {
-                    saveNewUser(newUser);
+                    saveNewUser(newUser, navigate);
                 }}
             >
-                click
+                Registration
             </Button>
         </RegistrationPageWrapper>
     );
 };
+
+export default observer(RegistrationPage);
