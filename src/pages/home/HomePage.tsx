@@ -1,12 +1,13 @@
-import { Typography } from '@mui/material';
+import { UserCoreFeature } from 'features/userCore/ui/UserCoreFeature';
 import React from 'react';
+import { HomePageWrapper } from './styled';
 
 interface IHomePage {}
 
 export const HomePage: React.FC<IHomePage> = () => {
     return (
-        <div>
-            <Typography>Home page</Typography>
-        </div>
+        <HomePageWrapper>
+            <UserCoreFeature />
+        </HomePageWrapper>
     );
 };
