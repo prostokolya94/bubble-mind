@@ -1,10 +1,10 @@
 import { Route, Routes, useNavigate } from 'react-router';
-import { HomePage } from '../pages/home/HomePage';
+import { HomePage } from 'pages/home/HomePage';
 import { MainWrapper } from './styled';
 import { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
-import { userStore } from '..';
-import RegistrationPage from '../pages/registration/ui/RegistrationPage';
+import { userStore } from 'index';
+import RegistrationPage from 'pages/registration/ui/RegistrationPage';
 
 function checkAuth() {
     let storage = localStorage.getItem('usersStorage');

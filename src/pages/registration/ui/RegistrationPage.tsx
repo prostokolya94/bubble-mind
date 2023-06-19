@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { RegistrationPageWrapper } from './styled';
 import { Button, MenuItem, Select, TextField, Typography } from '@mui/material';
-import { User } from '../../../shared/type/User';
+import { User } from 'shared/type/User';
 import { dispatchData, saveNewUser } from '../model/RegistrationPage';
 import { useNavigate } from 'react-router';
 import { observer } from 'mobx-react-lite';
