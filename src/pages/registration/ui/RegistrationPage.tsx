@@ -1,49 +1,37 @@
-import React, { useState } from 'react';
+import { useReducer } from 'react';
 import { RegistrationPageWrapper } from './styled';
 import { Button, MenuItem, Select, TextField, Typography } from '@mui/material';
-import { User } from 'shared/type/User';
-import { dispatchData, saveNewUser } from '../model/RegistrationPage';
+import { ActionType } from 'shared/type/User';
+import { initUser, registration, userReducer } from '../model/RegistrationPage';
 import { useNavigate } from 'react-router';
 import { observer } from 'mobx-react-lite';
 
 const RegistrationPage = () => {
-    const [firstName, setFirstName] = useState<string>('');
-    const [lastName, setLastName] = useState<string>('');
-    const [age, setAge] = useState<number>(0);
-    const [male, setMale] = useState<string>('male');
-
+    const [userState, setUserState] = useReducer(userReducer, initUser);
     const navigate = useNavigate();
-
-    const newUser: User = {
-        id: Date.now(),
-        firstName: firstName,
-        lastName: lastName,
-        age: age,
-        male: male,
-    };
 
     return (
         <RegistrationPageWrapper>
             <Typography>First Name</Typography>
-            <TextField value={firstName} onChange={(e) => dispatchData(e, setFirstName)} />
+            <TextField value={userState.firstName} onChange={(e) => setUserState({ type: ActionType.SET_FIRST_NAME, firstName: e.target.value })} />
             <Typography>Last Name</Typography>
-            <TextField value={lastName} onChange={(e) => dispatchData(e, setLastName)} />
+            <TextField value={userState.lastName} onChange={(e) => setUserState({ type: ActionType.SET_LAST_NAME, lastName: e.target.value })} />
             <Typography>Male</Typography>
             <Select
                 style={{ width: '223px' }}
                 labelId='demo-simple-select-label'
                 id='demo-simple-select'
-                value={male}
-                onChange={(e) => dispatchData(e, setMale)}
+                value={userState.male}
+                onChange={(e) => setUserState({ type: ActionType.SET_MALE, male: e.target.value })}
             >
                 <MenuItem value={'male'}>Male</MenuItem>
                 <MenuItem value={'female'}>Female</MenuItem>
             </Select>
             <Typography>Age</Typography>
-            <TextField type='number' value={age} onChange={(e) => dispatchData(e, undefined, setAge)} />
+            <TextField type='number' value={userState.age} onChange={(e) => setUserState({ type: ActionType.SET_AGE, age: +e.target.value })} />
             <Button
                 onClick={(e) => {
-                    saveNewUser(newUser, navigate);
+                    registration(userState, navigate);
                 }}
             >
                 Registration
